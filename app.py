@@ -1,8 +1,7 @@
-from flask import Flask, request, render_template, redirect, url_for
-import os
-import subprocess
+from flask import Flask, request, render_template, redirect, url_for, flash
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Change this to a random secret key
 
 @app.route('/')
 def home():
@@ -18,15 +17,13 @@ def execute():
         return render_template('index.html', error="Please provide both username and password.")
 
     try:
-        # Create a new user
-        subprocess.run(['adduser', username], check=True)
-        # Set the password
-        subprocess.run(['passwd', password], check=True)
-        # Add user to the wheel group
-        subprocess.run(['usermod', '-aG', 'wheel', username], check=True)
-
-        return render_template('success.html', username=username)
-    except subprocess.CalledProcessError as e:
+        # Mock user creation logic (since actual user management commands do not work on Windows)
+        flash(f"User '{username}' would be created with the specified password (this is a simulation).")
+        
+        # Normally, you would save the user details to a database here
+        
+        return redirect(url_for('home'))
+    except Exception as e:
         return render_template('index.html', error="An error occurred: " + str(e))
 
 if __name__ == '__main__':
