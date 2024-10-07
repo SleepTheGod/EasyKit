@@ -28,6 +28,13 @@
 <body>
     <div class="container">
         <h1>EasyKit User Management</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
